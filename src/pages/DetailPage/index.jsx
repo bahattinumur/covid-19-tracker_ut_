@@ -9,32 +9,32 @@ import ErrorDisplay from "../../components/ErrorDisplay";
 import HeaderLoader from "../../components/Loader/HeaderLoader";
 
 const DetailPage = () => {
-  // Store'a abone ol
+  // Sign-Up the Store
   const { data, error, isLoading } = useSelector((store) => store);
 
-  // URL'den parametreyi al
+  // Take the params from URL.
   const { country } = useParams();
 
-  // Dispatch kurulumu
+  // Dispatch setting
   const dispatch = useDispatch();
 
-  // Verileri çek
+  // Take datas
   const fetchData = () => {
     dispatch(getData(country));
   };
 
-  // Bileşen ekrana basılınca aksiyonu çağır
+  // Call action when component appears the screen
   useEffect(() => {
     fetchData();
   }, [country]);
 
-  // Kovid bilgilerini bir diziye çevir
+  // Convert Covid information into stiring.
   const covidData = Object.entries(data?.covid || {});
 
   return (
     <div className="min-h-[calc(100vh-75px)] bg-zinc-800 text-white p-6 grid place-items-center ">
       <div className="min-h-[80vh] bg-white rounded-lg shadow-lg p-8 max-w-3xl">
-        {/* Üst İçerik */}
+        {/* Up Content */}
         <div className="flex gap-5 justify-between items-center mb-6">
           <Link
             className="flex items-center gap-2 bg-gray-700 py-2 px-4 rounded-md hover:bg-gray-800"
@@ -66,7 +66,7 @@ const DetailPage = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {/* Detaylar */}
+          {/* Details */}
           {isLoading ? (
             <Loader />
           ) : error ? (

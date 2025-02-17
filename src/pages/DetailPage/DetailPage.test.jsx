@@ -6,18 +6,18 @@ import configureStore from "redux-mock-store"; //ES6 modules
 import { thunk } from "redux-thunk";
 import { storeData } from "../../constants";
 
-// Test ortamındaki store'un kurlumunu yap thunk middleware'i kullandığımız söyle
+// Install the store in the test environment and tell the user that we are using thunk middleware.
 const mockStore = configureStore([thunk]);
 
-it("yüklenme durumunda doğru bileşenler ekrana basılır", () => {
-  // Store'un yüklenme durumundaki halini simüle et
+it("In case of loading, the correct components are printed on the screen", () => {
+  // Simulate the Store in loading state
   const store = mockStore({
     isLoading: true,
     error: false,
     data: null,
   });
 
-  // Bileşeni gerekli kapsayıcıları tanımlayarak renderla
+  // Render the component by defining the required containers
   render(
     <Provider store={store}>
       <BrowserRouter>
@@ -26,20 +26,20 @@ it("yüklenme durumunda doğru bileşenler ekrana basılır", () => {
     </Provider>
   );
 
-  // Loader ekrana geliyor mu kontrol et
+  // Check if the loader appears on the screen
   screen.getAllByTestId("card-loader");
   screen.getByTestId("header-loader");
 });
 
-it("hata durumunda doğru hata bileşeni ekrana basılır", () => {
-  // Store'un hata durumundaki  verisini simüle et
+it("In case of error, the correct error component is printed on the screen.", () => {
+  // Simulate store's data in error state
   const store = mockStore({
     isLoading: false,
     error: "Cannot read properties of undefined (reading 'region')",
     data: null,
   });
 
-  // Test edilecek bileşeni renderla
+  // Render the component to be tested
   render(
     <Provider store={store}>
       <BrowserRouter>
@@ -48,11 +48,11 @@ it("hata durumunda doğru hata bileşeni ekrana basılır", () => {
     </Provider>
   );
 
-  // Hatanın mesajını gösteren bileşen ekrana basıldı mı?
+  // Is the component that displays the error message printed on the screen?
   screen.getByText(/Cannot read properties/i);
 });
 
-it("veri gelme durumunda doğru kartlar ekrana basılır", () => {
+it("In case of data incoming, the correct cards are printed on the screen.", () => {
   const store = mockStore(storeData);
 
   render(
@@ -63,31 +63,31 @@ it("veri gelme durumunda doğru kartlar ekrana basılır", () => {
     </Provider>
   );
 
-  //*1) ülke detayları ekrana geliyor mu?
+  //*1) Are country details displayed on the screen?
 
-  // Ülke bayrağı ekrana geliyor mu ?
+  // Does the country flag appear on the screen?
   const image = screen.getByRole("img");
 
-  // Resmin kaynağı doğru mu?
+  // Check Is the source of the image correct?
   expect(image).toHaveProperty("src", "https://flagcdn.com/br.svg");
 
-  // Ülke başlığı ekrana geliyor mu ?
+  // Is the country title displayed on the screen?
   const title = screen.getByTestId("title");
 
-  // Başlığın içeriği doğru mu?
+  // Is the content of the title correct?
   expect(title).toHaveTextContent("Brazil");
 
-  //*2) Kartlar ekrana geliyor mu?
+  //*2) Do the cards appear on the screen?
 
-  // Kovid nesnesini bileşende olduğu gibi diziye çevirdik
+  // Converted the Covid object to an array as in the component
   const covidData = Object.entries(storeData.data.covid);
 
-  // Dizideki her bir eleman için key ve value değerleri ekrana basılıyor mu kontrol et?
+  // Check if the key and value values ​​for each element in the array are printed to the screen?
   covidData.forEach((item) => {
-    // başlıklar doğru geldi mi?
+    // The titles correct?
     screen.getAllByText(item[0].split("_").join(" "), { exact: false });
 
-    // Değerler doğru geldi mi?
+    // Did the values ​​have come correct?
     screen.getAllByText(item[1]);
   });
 });

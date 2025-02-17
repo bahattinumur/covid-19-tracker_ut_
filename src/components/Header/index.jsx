@@ -9,10 +9,10 @@ const Header = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Aratılan Metin
+    // Searched Text
     const text = e.target[0].value;
 
-    // Kullanıcıyı detal sayfasına yönlendir.
+    // Navigate the user to detail page
     navigate(`/detail/${text}`);
   };
 
