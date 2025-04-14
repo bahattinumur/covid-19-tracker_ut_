@@ -8,7 +8,7 @@ With our COVID-19 Tracker application, you can easily track COVID-19 data worldw
 
 - CSS
 
-- JavaScript
+- TypeScript
 
 <h2> Libraries </h2>
 
